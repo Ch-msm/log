@@ -1,6 +1,9 @@
-package log;
+package pers.msm.log.util;
 
-import java.io.IOException;
+import pers.msm.log.LogConfig;
+import pers.msm.log.handler.FileStreamHandler;
+import pers.msm.log.handler.InputConsoleHandler;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.*;
@@ -21,15 +24,9 @@ public class LogUtil {
    */
   public static void addConsoleHandler(Logger log, Level level) {
     // 控制台输出的handler
-    ConsoleHandler consoleHandler = new ConsoleHandler();
+    InputConsoleHandler consoleHandler = new InputConsoleHandler();
     // 设置控制台输出的等级（如果ConsoleHandler的等级高于或者等于log的level，则按照FileHandler的level输出到控制台，如果低于，则按照Log等级输出）
     consoleHandler.setLevel(level);
-    consoleHandler.setFormatter(new Formatter() {
-      @Override
-      public String format(LogRecord record) {
-        return logOutputFormat(record);
-      }
-    });
     // 添加控制台的handler
     log.addHandler(consoleHandler);
   }
@@ -42,37 +39,16 @@ public class LogUtil {
    * @param filePath 指定文件全路径
    */
   public static void addFileHandler(Logger log, Level level, String filePath) {
-    FileHandler fileHandler;
+    FileStreamHandler fileHandler;
     try {
-      fileHandler = new XLFileStreamHandler(filePath, 0, 1, true);
-      // 设置输出文件的等级（如果FileHandler的等级高于或者等于log的level，则按照FileHandler的level输出到文件，如果低于，则按照Log等级输出）
+      fileHandler = new FileStreamHandler(filePath, 1024 * 1024 * LogConfig.LOG_SIZE, LogConfig.DATELINE, LogConfig.APPEND);
+      // 设置输出文件的等级（如果FileHandler的等级高于或者等于log的level，则按照FileHandler的level输出到文件，如果低于，则按照Log等级输出）;
       fileHandler.setLevel(level);
-
       // 添加输出文件handler
       log.addHandler(fileHandler);
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * @param record 日志记录对象
-   * @return 日志统一输出
-   */
-  protected static String logOutputFormat(LogRecord record) {
-    @SuppressWarnings("StringBufferReplaceableByString")
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder
-        .append(getCurrentDateStr(LogConfig.OUTPUT_DATE_PATTERN))
-        .append(" ").append(record.getLevel().getName())
-        .append(" ").append(" [").append(record.getLoggerName())
-        .append("] ").append(record.getSourceClassName())
-        .append(" ")
-        .append(record.getSourceMethodName())
-        .append("\n")
-        .append(record.getMessage())
-        .append("\n");
-    return stringBuilder.toString();
   }
 
   /**
