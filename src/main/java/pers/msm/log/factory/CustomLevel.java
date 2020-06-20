@@ -19,4 +19,17 @@ public class CustomLevel extends Level {
   protected CustomLevel(String name, int value, String resourceBundleName) {
     super(name, value, resourceBundleName);
   }
+
+  public static Level parse(String name) {
+    switch (name) {
+      case "DEBUG": {
+        return DEBUG;
+      }
+      case "ERROR": {
+        return ERROR;
+      }
+      default:
+        return Level.parse(name);
+    }
+  }
 }

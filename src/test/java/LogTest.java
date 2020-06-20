@@ -1,9 +1,8 @@
+import pers.msm.log.factory.Log;
 import pers.msm.log.factory.LogFactory;
-import org.junit.Test;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.logging.Logger;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 日志测试
@@ -11,30 +10,21 @@ import java.util.logging.Logger;
  * author:msm
  */
 public class LogTest {
-  private static final Logger log = LogFactory.getLog("测试模块");
-  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-  @Test
-  public void test() {
-
-    long a = System.currentTimeMillis();
-    for (int i = 0; i < 100000; i++) {
-      String s = LocalDate.now().toString();
-
-    }
-    System.out.println(System.currentTimeMillis()-a);
-
-
-
-  }
+  private static final Log log = LogFactory.getLog("测试模块");
 
   public static void main(String[] args) {
-//    pers.msm.log.severe("severe-->   this is severe!");
-//    pers.msm.log.warning("warning-->   this is warning!");
-//    pers.msm.log.info("info-->   this is info!");
-//    pers.msm.log.config("config-->   this is config!");
-//    pers.msm.log.fine("fine-->   this is fine!");
-//    pers.msm.log.finer("finer-->   this is finer!");
-
+    Map<String, String> map = new LinkedHashMap<>();
+    map.put("用户：", "梅思铭");
+    map.put("IP:", "192.168.0.2");
+    LogFactory.logThreadLocal.set(map);
+    for (int i = 0; i < 10; i++) {
+      log.debug("测试日志功能");
+      log.info("测试日志功能");
+      log.debug("测试日志功能:{},{}", "debug ", "debug");
+      log.info("测试日志功能:{},{}", "info ", "123");
+      log.warn("测试日志功能:{},{}", "info ", "123");
+      log.error("123");
+      log.error(new Exception("123"));
+    }
   }
 }

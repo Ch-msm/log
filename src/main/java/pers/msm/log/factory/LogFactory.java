@@ -3,7 +3,9 @@ package pers.msm.log.factory;
 import pers.msm.log.LogConfig;
 import pers.msm.log.util.LogUtil;
 
+import java.util.Map;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -16,15 +18,21 @@ public class LogFactory {
   /**
    * 全局Log的名称
    */
-  public static final String LOG_NAME = "Global";
+  protected static final String LOG_NAME = "Global";
   /**
    * 静态变量globalLog
    */
   private static final Logger globalLog;
 
+  /**
+   * 本地线程变量
+   */
+  public static ThreadLocal<Map<String, String>> logThreadLocal = new ThreadLocal<>();
+
   static {
     globalLog = initGlobalLog();
   }
+
   /**
    * 初始化全局Logger
    *
@@ -35,21 +43,27 @@ public class LogFactory {
     Logger log = Logger.getLogger(LOG_NAME);
     // 为log设置全局等级
     log.setLevel(CustomLevel.ALL);
-    // 添加控制台handler
-    LogUtil.addConsoleHandler(log, LogConfig.CONSOLE_LEVEL);
-    // 添加文件输出handler
-    LogUtil.addFileHandler(log, LogConfig.FILE_LEVEL, LogConfig.OUTPUT_FOLDER.getAbsolutePath());
+
+    if (LogConfig.CONSOLE_LEVEL != Level.OFF) {
+      // 添加控制台handler
+      LogUtil.addConsoleHandler(log, LogConfig.CONSOLE_LEVEL);
+    }
+    if (LogConfig.FILE_LEVEL != Level.OFF) {
+      // 添加文件输出handler
+      LogUtil.addFileHandler(log, LogConfig.FILE_LEVEL, LogConfig.OUTPUT_FOLDER.getAbsolutePath());
+    }
     // 设置不适用父类的handlers，这样不会在控制台重复输出信息
     log.setUseParentHandlers(false);
     return log;
   }
+
   /**
    * 日志
    *
    * @param name 日志名称
    * @return 当前日志
    */
-  public static Logger getLog(String name) {
+  protected static Logger getLogger(String name) {
     Logger log = Logger.getLogger(name);
     // 为log设置全局等级
     log.setLevel(globalLog.getLevel());
@@ -58,5 +72,9 @@ public class LogFactory {
     }
     log.setUseParentHandlers(false);
     return log;
+  }
+
+  public static Log getLog(String name) {
+    return Log.getLog(name);
   }
 }
