@@ -1,4 +1,4 @@
-package pers.msm.log.factory;
+package per.msm.log.factory;
 
 import java.text.MessageFormat;
 import java.util.logging.Logger;

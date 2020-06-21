@@ -1,7 +1,7 @@
-package pers.msm.log.factory;
+package per.msm.log.factory;
 
-import pers.msm.log.LogConfig;
-import pers.msm.log.util.LogUtil;
+import per.msm.log.LogConfig;
+import per.msm.log.util.LogUtil;
 
 import java.util.Map;
 import java.util.logging.Handler;
@@ -25,11 +25,12 @@ public class LogFactory {
   private static final Logger globalLog;
 
   /**
-   * 本地线程变量
+   * 本地线程变量 经测试 ThreadLocal 会清空key为null的对象
    */
   public static ThreadLocal<Map<String, String>> logThreadLocal = new ThreadLocal<>();
 
   static {
+    logThreadLocal.remove();
     globalLog = initGlobalLog();
   }
 
@@ -38,7 +39,7 @@ public class LogFactory {
    *
    * @return log对象
    */
-  public static Logger initGlobalLog() {
+  protected static Logger initGlobalLog() {
     // 获取Log
     Logger log = Logger.getLogger(LOG_NAME);
     // 为log设置全局等级
@@ -51,6 +52,10 @@ public class LogFactory {
     if (LogConfig.FILE_LEVEL != Level.OFF) {
       // 添加文件输出handler
       LogUtil.addFileHandler(log, LogConfig.FILE_LEVEL, LogConfig.OUTPUT_FOLDER.getAbsolutePath());
+    }
+    //自定义日志处理器
+    if (LogConfig.CUSTOM_LEVEL != Level.OFF) {
+      LogUtil.addCustomHandler(log, LogConfig.CUSTOM_LEVEL);
     }
     // 设置不适用父类的handlers，这样不会在控制台重复输出信息
     log.setUseParentHandlers(false);

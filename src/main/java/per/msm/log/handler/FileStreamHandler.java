@@ -1,7 +1,8 @@
-package pers.msm.log.handler;
+package per.msm.log.handler;
 
-import pers.msm.log.LogConfig;
-import pers.msm.log.factory.InputFormatter;
+import per.msm.log.LogConfig;
+import per.msm.log.factory.InputFormatter;
+import per.msm.log.factory.LogFactory;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -55,7 +56,7 @@ public class FileStreamHandler extends StreamHandler {
    */
   private String today = LocalDate.now().toString();
   /**
-   *
+   * 格式化日器
    */
   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -236,6 +237,7 @@ public class FileStreamHandler extends StreamHandler {
       return;
     }
     if (limit > 0 && msOut.written >= limit) {
+      LogFactory.logThreadLocal.remove();
       openLastFile(false);
     } else {
       //当前时间
@@ -243,6 +245,12 @@ public class FileStreamHandler extends StreamHandler {
       if (!now.equals(today)) {
         today = now;
         openLastFile(false);
+      }
+    }
+    //删除历史日志文件
+    if (dateline >= 1) {
+      String now = LocalDate.now().toString();
+      if (!now.equals(today)) {
         deleteExpiredLog();
       }
     }

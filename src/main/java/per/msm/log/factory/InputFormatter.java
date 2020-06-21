@@ -1,13 +1,15 @@
-package pers.msm.log.factory;
+package per.msm.log.factory;
 
-import pers.msm.log.LogConfig;
-import pers.msm.log.util.LogUtil;
+import per.msm.log.LogConfig;
+import per.msm.log.util.LogUtil;
 
 import java.util.Map;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
 /**
+ * 日志输出格式化
+ *
  * @author msm
  * Date 2020/6/19 23:22
  */
@@ -36,8 +38,6 @@ public class InputFormatter extends Formatter {
         .append("\n")
         .append(record.getMessage())
         .append("\n");
-
-
     return stringBuilder.toString();
   }
 }

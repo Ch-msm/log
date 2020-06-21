@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'pers.msm'
+group 'per.msm'
 version '1.0.0'
 
 repositories {

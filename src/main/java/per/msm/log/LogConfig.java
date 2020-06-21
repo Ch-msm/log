@@ -1,6 +1,6 @@
-package pers.msm.log;
+package per.msm.log;
 
-import pers.msm.log.factory.CustomLevel;
+import per.msm.log.factory.CustomLevel;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -15,39 +15,48 @@ public class LogConfig {
   /**
    * 日志文件夹 默认当前目录下
    */
-  public static final String LOG_FOLDER = "Log";
+  public static String LOG_FOLDER = "Log";
   /**
    * 日志输出时间 基于SimpleDateFormat对象的日期字符串字符串模板
    */
-  public static final String OUTPUT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.sss";
+  public static String OUTPUT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.sss";
   /**
    * 日志文件夹
    */
-  public static final File OUTPUT_FOLDER;
+  public static File OUTPUT_FOLDER;
   /**
    * 日志文件名称
    */
-  public static final String LOG_FILE_NAME = "log";
+  public static String LOG_FILE_NAME = "log";
   /**
    * 日志文件大小 单位（M） 默认10 如果为0 不分片
    */
-  public static final int LOG_SIZE = 10;
+  public static int LOG_SIZE = 1;
   /**
    * 日志文件保留天数 为0时 不删除
    */
-   public static final int DATELINE = 5;
+  public static int DATELINE = 5;
   /**
    * 日志输出是否追加在已有的文件最后
    */
-  public static final boolean APPEND = true;
+  public static boolean APPEND = true;
   /**
    * 控制台输出等级
    */
   public static Level CONSOLE_LEVEL = CustomLevel.ALL;
   /**
-   *  日志文件输出等级
+   * 日志文件输出等级
    */
   public static Level FILE_LEVEL = CustomLevel.ALL;
+  /**
+   * 自定义日志输出等级
+   */
+  public static Level CUSTOM_LEVEL = CustomLevel.OFF;
+  /**
+   * 自定义日志处理函数
+   */
+  public static String CUSTOM_LOG_FUN = "per.msm.log.factory.SimpleFunction";
+
   /*
     初始化目录文件夹
    */

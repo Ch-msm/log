@@ -1,8 +1,10 @@
-package pers.msm.log.handler;
+package per.msm.log.handler;
 
-import pers.msm.log.factory.InputFormatter;
+import per.msm.log.factory.InputFormatter;
 
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.StreamHandler;
 
 /**
  * 控制台输出处理器
@@ -21,10 +23,10 @@ public class InputConsoleHandler extends StreamHandler {
   }
 
   /**
-   * Create a <tt>ConsoleHandler</tt> for <tt>System.err</tt>.
+   * Create a <span>ConsoleHandler</span> for <span>System.err</span>.
    * <p>
-   * The <tt>ConsoleHandler</tt> is configured based on
-   * <tt>LogManager</tt> properties (or their default values).
+   * The <span>ConsoleHandler</span> is configured based on
+   * <span>LogManager</span> properties (or their default values).
    */
   public InputConsoleHandler() {
     configure();
@@ -32,10 +34,10 @@ public class InputConsoleHandler extends StreamHandler {
   }
 
   /**
-   * Publish a <tt>LogRecord</tt>.
+   * Publish a <span>LogRecord</span>.
    * <p>
-   * The logging request was made initially to a <tt>Logger</tt> object,
-   * which initialized the <tt>LogRecord</tt> and forwarded it here.
+   * The logging request was made initially to a <span>Logger</span> object,
+   * which initialized the <span>LogRecord</span> and forwarded it here.
    * <p>
    *
    * @param record description of the pers.msm.log event. A null record is
@@ -48,9 +50,9 @@ public class InputConsoleHandler extends StreamHandler {
   }
 
   /**
-   * Override <tt>StreamHandler.close</tt> to do a flush but not
+   * Override <span>StreamHandler.close</span> to do a flush but not
    * to close the output stream.  That is, we do <b>not</b>
-   * close <tt>System.err</tt>.
+   * close <span>System.err</span>.
    */
   @Override
   public void close() {
