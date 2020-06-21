@@ -46,6 +46,7 @@ public class LogUtil {
     try {
       fileHandler = new FileStreamHandler(filePath, 1024 * 1024 * LogConfig.LOG_SIZE, LogConfig.DATELINE, LogConfig.APPEND);
       // 设置输出文件的等级（如果FileHandler的等级高于或者等于log的level，则按照FileHandler的level输出到文件，如果低于，则按照Log等级输出）;
+      fileHandler.setEncoding("UTF-8");
       fileHandler.setLevel(level);
       // 添加输出文件handler
       log.addHandler(fileHandler);

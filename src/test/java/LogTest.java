@@ -16,7 +16,7 @@ public class LogTest {
   }
 
   public static void main(String[] args) throws InterruptedException {
-    for (int i = 0; i < 1000000; i++) {
+    for (int i = 0; i < 1000; i++) {
       int finalI = i;
       new Thread(() -> {
         Map<String, String> map = new LinkedHashMap<>();
